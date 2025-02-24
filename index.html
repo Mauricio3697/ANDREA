@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Financeira e de Combustível </title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: auto;
+            transition: transform 0.3s;
+        }
+        .container:hover {
+            transform: scale(1.02);
+        }
+        input {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #004a63;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #007453;
+        }
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculadora Financeira e de Combustível</h2>
+        <p><strong>Seu Carro:</strong> Corsa Hatch Super 1.0 MPFi 1997</p>
+        <p>Consumo: <strong>11,3 km/l</strong> (cidade) | <strong>16,8 km/l</strong> (estrada)</p>
+        
+        <h3>Finanças Pessoais (Andrea Bil)</h3>
+        <input type="number" id="salario" placeholder="Salário Base">
+        <input type="number" id="luz" placeholder="Conta de Luz">
+        <input type="number" id="agua" placeholder="Conta de Água">
+        <input type="number" id="comida" placeholder="Gasto com Comida">
+        <input type="number" id="outras" placeholder="Outras Despesas">
+        <button onclick="calcularFinancas()">Calcular Finanças</button>
+        <p>Total de Gastos: R$ <span id="total">0.00</span></p>
+        <p>Saldo Restante: R$ <span id="saldo">0.00</span></p>
+        <canvas id="graficoGastos"></canvas>
+        
+        <h3>Calculadora de Combustível</h3>
+        <input type="number" id="precoGasolina" placeholder="Preço do Litro da Gasolina" value="6.00">
+        <input type="number" id="km" placeholder="Quilômetros a Percorrer">
+        <button onclick="calcularCombustivel()">Calcular Consumo</button>
+        <p>Gasto na Cidade: R$ <span id="gastoCidade">0.00</span></p>
+        <p>Gasto na Estrada: R$ <span id="gastoEstrada">0.00</span></p>
+        <canvas id="graficoCombustivel"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        function calcularFinancas() {
+            let salario = parseFloat(document.getElementById('salario').value) || 0;
+            let luz = parseFloat(document.getElementById('luz').value) || 0;
+            let agua = parseFloat(document.getElementById('agua').value) || 0;
+            let comida = parseFloat(document.getElementById('comida').value) || 0;
+            let outras = parseFloat(document.getElementById('outras').value) || 0;
+            let total = luz + agua + comida + outras;
+            let saldo = salario - total;
+            document.getElementById('total').innerText = total.toFixed(2);
+            document.getElementById('saldo').innerText = saldo.toFixed(2);
+
+            let ctx = document.getElementById('graficoGastos').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Luz', 'Água', 'Comida', 'Outras'],
+                    datasets: [{
+                        data: [luz, agua, comida, outras],
+                        backgroundColor: ['#ff9999', '#66b3ff', '#99ff99', '#ffcc99']
+                    }]
+                }
+            });
+        }
+
+        function calcularCombustivel() {
+            let km = parseFloat(document.getElementById('km').value) || 0;
+            let precoGasolina = parseFloat(document.getElementById('precoGasolina').value) || 6.00;
+            let consumoCidade = 11.3;
+            let consumoEstrada = 16.8;
+            let gastoCidade = (km / consumoCidade) * precoGasolina;
+            let gastoEstrada = (km / consumoEstrada) * precoGasolina;
+            document.getElementById('gastoCidade').innerText = gastoCidade.toFixed(2);
+            document.getElementById('gastoEstrada').innerText = gastoEstrada.toFixed(2);
+
+            let ctx = document.getElementById('graficoCombustivel').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Cidade', 'Estrada'],
+                    datasets: [{
+                        label: 'Gasto em R$',
+                        data: [gastoCidade, gastoEstrada],
+                        backgroundColor: ['#ff6666', '#66ff66']
+                    }]
+                }
+            });
+        }
+    </script>
+</body>
+</html>
