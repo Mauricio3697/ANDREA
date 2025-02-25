@@ -52,8 +52,8 @@
 <body>
     <div class="container">
         <h2>Calculadora Financeira e de Combustível</h2>
-        <p><strong>Seu Carro:</strong> Corsa Hatch Super 1.0 MPFi 1997</p>
-        <p>Consumo: <strong>11,3 km/l</strong> (cidade) | <strong>16,8 km/l</strong> (estrada)</p>
+        <p><strong>Seu Carro:</strong> Corsa Wagon GL 1.6 8V 1998</p>
+        <p>Consumo: <strong>11,5 km/l</strong> (cidade) | <strong>16,9 km/l</strong> (estrada)</p>
         
         <h3>Finanças Pessoais (Andrea Bil)</h3>
         <input type="number" id="salario" placeholder="Salário Base">
@@ -104,8 +104,8 @@
         function calcularCombustivel() {
             let km = parseFloat(document.getElementById('km').value) || 0;
             let precoGasolina = parseFloat(document.getElementById('precoGasolina').value) || 6.00;
-            let consumoCidade = 11.3;
-            let consumoEstrada = 16.8;
+            let consumoCidade = 11.5;
+            let consumoEstrada = 16.9;
             let gastoCidade = (km / consumoCidade) * precoGasolina;
             let gastoEstrada = (km / consumoEstrada) * precoGasolina;
             document.getElementById('gastoCidade').innerText = gastoCidade.toFixed(2);
